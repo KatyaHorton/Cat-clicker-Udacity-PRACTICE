@@ -251,8 +251,6 @@ var adminView = {
 	
 };
 
-
-
 octopus.init();
 
 
