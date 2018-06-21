@@ -9,7 +9,8 @@ var model = {
 		{
 			clickCount: 0,
 			name: 'Tabby',
-			imgSrc: 'cat_picture1.jpg'		 
+			imgSrc: 'cat_picture1.jpg'
+			
 		},
 		{
 			clickCount: 0,
@@ -79,14 +80,27 @@ var octopus = {
 		if (model.adminShown === false) {
 			model.adminShown = true;
 			adminView.show();
-		} else {
+		};
+	},
+	
+//hides the admin div
+	hide: function() {
+		if (model.adminShown === true) {
 			model.adminShown = false;
 			adminView.hide();
-		}
+		};
+	}, 
+	
+//updates the currentCat with the new values 
+	save: function() {
+		model.currentCat.name = adminView.adminName.value;
+		model.currentCat.clickCount = adminView.adminClicks.value;
+		model.currentCat.imgSrc =adminView.adminImg.value;
+		catView.render();
+		this.hide();
+		
 	}
 };
-
-
 
 //------------------ VIEW---------------//
 
@@ -207,29 +221,32 @@ var adminView = {
 		this.saveButton.addEventListener('click', function(){
 			octopus.save();
 		});
+		
 ////hides the admin div when page is loaded
 		this.hide();
 	
 	},
 
 	render: function() {
-	
+		var currentCat = octopus.getCurrentCat();
+		this.adminName.value = '';
+		this.adminClicks.value = octopus.getCurrentCat().clickCount;
 	},
 
 	hide: function() {
 		 this.adminDiv.style.display = 'none';
 		 this.cancelButton.style.display = 'none';
 		 this.saveButton.style.display = 'none';
+		 this.adminName.value='';
+		 this.adminClicks.value='';
+		 this.adminImg.value='';
+		 
 	}, 
 	
 	show: function() {
 		 this.adminDiv.style.display = 'block';
 		 this.cancelButton.style.display = 'block';
 		 this.saveButton.style.display = 'block';
-	},  
-	
-	save: function() {
-		
 	}
 	
 };
