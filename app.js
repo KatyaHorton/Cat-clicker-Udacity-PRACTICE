@@ -2,6 +2,7 @@
 
 var model = {
 	currentCat: null,
+	adminShown: false,
 	
 //object which contains array with cats objects	
 	cats: [
@@ -31,6 +32,8 @@ var model = {
 			imgSrc: 'cat_picture5.jpeg'		 
 		}		
 	]
+	
+	
 };
 
 
@@ -47,6 +50,7 @@ var octopus = {
 //tells the views to initialize 
 		 catListView.init();
 		 catView.init();
+		 adminView.init();
 	 },
 	
 //function to be called in the VIEW object to render CurrentCat 	
@@ -68,12 +72,23 @@ var octopus = {
 	incrementCounter: function() {
 		model.currentCat.clickCount++;
 		catView.render();
+	}, 
+	
+//shows the admin div 
+	show: function() {
+		if (model.adminShown === false) {
+			model.adminShown = true;
+			adminView.show();
+		} else {
+			model.adminShown = false;
+			adminView.hide();
+		}
 	}
 };
 
 
 
-//------------------ VIEW
+//------------------ VIEW---------------//
 
 
 //----- CAT VIEW
@@ -162,6 +177,64 @@ var catListView = {
 	}
 	
 };
+
+//----- ADMIN VIEW
+
+
+var adminView = {
+	
+//function to initialize the admin view
+	init: function() {
+
+// stote the admin DOM elements to get easier access to them later
+		this.adminButton = document.getElementById('admin-button');
+		this.cancelButton = document.getElementById('cancel-button');
+		this.saveButton = document.getElementById('save-button');
+		this.adminDiv = document.getElementById('admin-div');
+		this.adminName = document.getElementById('name-input')
+		this.adminImg = document.getElementById('img-input');
+		this.adminClicks = document.getElementById('clicks-input');
+
+//shows the admin div when adminButton clicked
+		this.adminButton.addEventListener('click', function(){
+			octopus.show();
+		});
+//hides the admin div when cancelButton clicked
+		this.cancelButton.addEventListener('click', function(){
+			octopus.hide();
+		});
+//saves the admin div when saveButton clicked
+		this.saveButton.addEventListener('click', function(){
+			octopus.save();
+		});
+////hides the admin div when page is loaded
+		this.hide();
+	
+	},
+
+	render: function() {
+	
+	},
+
+	hide: function() {
+		 this.adminDiv.style.display = 'none';
+		 this.cancelButton.style.display = 'none';
+		 this.saveButton.style.display = 'none';
+	}, 
+	
+	show: function() {
+		 this.adminDiv.style.display = 'block';
+		 this.cancelButton.style.display = 'block';
+		 this.saveButton.style.display = 'block';
+	},  
+	
+	save: function() {
+		
+	}
+	
+};
+
+
 
 octopus.init();
 
